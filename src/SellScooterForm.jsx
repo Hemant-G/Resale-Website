@@ -50,7 +50,7 @@ const SellScooterForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-8 border bg-slate-50 border-gray-300 rounded-lg shadow-md">
+    <form onSubmit={handleSubmit} className="max-w-4xl mx-auto my-3 p-8 border bg-slate-50 border-gray-300 rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold mb-6 text-center text-gray-700">List Your Scooter for Sale</h2>
 
       {/* Basic Info */}

@@ -141,7 +141,7 @@ const SidebarFilter = ({ addFilter, removeFilter, filters }) => {
           min="0"
           max="300"
           step="25"
-          className="w-full accent-blue-500"
+          className="w-full accent-blue-900"
           value={sliderValue}
           onChange={(e) => handleSliderChange(Number(e.target.value))}
         />

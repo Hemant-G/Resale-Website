@@ -1,41 +1,80 @@
-import React from 'react';
+import React, { useContext } from "react";
+import { useNavigate, useLocation } from "react-router";
+import { AuthContext } from "./AuthContext";
 
-const Navbar = () => {
+const NavBar = () => {
+  const { isLogin } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const isHomePage = location.pathname === "/";
+  const isSellPage = location.pathname === "/sell";
+  const isBuyPage = location.pathname === "/buy";
+  const isAboutPage = location.pathname === "/about";
+
   return (
-    <nav className="shadow-sm bg-white">
-      <div className="bg-gray-100 px-4 sm:px-6 lg:px-8 py-2 text-xs text-gray-900 border-b border-gray-200">
-        <div className="container mx-auto flex flex-wrap justify-end items-center gap-y-1"> 
-          <div className="flex flex-wrap items-center gap-x-3 lg:gap-x-4 h-7">
-            <a href="#" className="hover:text-blue-600 hover:underline whitespace-nowrap">About Us</a>
-            <span className="whitespace-nowrap">📞 Call Us xxx xxx xxxx</span>
-            <a href="#" className="flex items-center hover:text-blue-600 whitespace-nowrap">
-                 🌐 English  
-            </a>
+    <div className="sticky top-0 z-50 bg-gray-100 border-b border-gray-200 ">
+      <div className="px-4 sm:px-6 lg:px-8 py-2 text-xs text-gray-900">
+        <div className="container mx-auto flex justify-between items-center gap-y-1">
+          <div className="flex items-center gap-x-2 lg:gap-x-4 h-7 text-sm">
+            <button
+              onClick={() => navigate("/")}
+              className={`px-2 font-semibold hover:bg-gray-300 cursor-pointer ${
+                isHomePage
+                  ? "border-blue-800 border-b-2 text-blue-800"
+                  : "text-slate-900"
+              }`}
+            >
+              Home
+            </button>
+
+            <button
+              onClick={() => navigate("/buy")}
+              className={`px-2 font-semibold hover:bg-gray-300 cursor-pointer ${
+                isBuyPage
+                  ? "border-blue-800 border-b-2 text-blue-800"
+                  : "text-slate-900"
+              }`}
+            >
+              Buy
+            </button>
+
+            <button
+              onClick={() => (isLogin ? navigate("/sell") : navigate("/login"))}
+              className={`px-2 font-semibold hover:bg-gray-300 cursor-pointer ${
+                isSellPage
+                  ? "border-blue-800 border-b-2 text-blue-800"
+                  : "text-slate-900"
+              }`}
+            >
+              Sell
+            </button>
+
+            <button
+              onClick={() => navigate("/about")}
+              className={`px-2 font-semibold hover:bg-gray-300 cursor-pointer ${
+                isAboutPage
+                  ? "border-blue-800 border-b-2 text-blue-800"
+                  : "text-slate-900"
+              }`}
+            >
+              About Us
+            </button>
           </div>
 
-          <div className="flex items-center gap-x-3">
-             <button className="text-gray-600 hover:text-black" aria-label="Search">
-               🔍
-             </button>
-              <button className="text-gray-600 hover:text-black" aria-label="Account">
-                 👤
-              </button>
-            <button className="border border-gray-300 px-3 py-1 rounded text-xs bg-gray-200 hover:bg-gray-300 whitespace-nowrap">
+          <div className="flex items-center text-sm gap-x-4 text-slate-900 font-semibold">
+            <span>Call Us 📞 1882-318-708, 📞 1882-318-709</span>
+            <button
+              onClick={() => navigate("/login")}
+              className="border border-gray-500 px-3 py-1 rounded font-semibold text-blue-900 bg-slate-50 hover:bg-gray-300 cursor-pointer"
+            >
               LOGIN
             </button>
           </div>
         </div>
       </div>
-
-      {/* Branding */}
-      <div className="container mx-auto flex justify-between items-center px-6 py-4">
-        <div className="text-xl sm:text-4xl font-extrabold text-blue-900 cursor-pointer">
-            RESALE SCOOTERS
-        </div>
-        <img className='h-15' src="/smg_logo.jpg" alt="SMG ELECTRIC SCOOTERS LTD" />
-      </div>
-    </nav>
+    </div>
   );
 };
 
-export default Navbar;
+export default NavBar;

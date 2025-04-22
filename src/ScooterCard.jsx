@@ -26,7 +26,7 @@ const ScooterCard = ({ scooter }) => {
         {/* Price & EMI */}
         <div className="flex items-center justify-between mt-2">
           <p className="text-xl font-bold text-blue-900">₹{scooter.price}</p>
-          <button className="text-sm text-blue-700 border border-blue-700 px-3 py-1 rounded-md hover:bg-blue-50 transition">
+          <button className="text-sm text-blue-900 border border-blue-900 px-3 py-1 rounded-md hover:bg-blue-900/10 transition">
             CALCULATE EMI
           </button>
         </div>
@@ -34,7 +34,7 @@ const ScooterCard = ({ scooter }) => {
 
         {/* Smart Finance Checkbox */}
         <label className="flex items-center text-sm text-gray-700 mt-1">
-          <input type="checkbox" className="mr-2 accent-blue-600" />
+          <input type="checkbox" className="mr-2 accent-blue-900" />
           Select for Smart Finance
         </label>
 
@@ -47,10 +47,10 @@ const ScooterCard = ({ scooter }) => {
 
         {/* Action Buttons */}
         <div className="flex gap-2 mt-4">
-          <button className="flex-1 border border-blue-700 text-blue-700 py-2 rounded-md text-sm hover:bg-blue-50 transition">
+          <button className="flex-1 border border-blue-900 text-blue-900 py-2 rounded-md text-sm hover:bg-blue-900/10 transition">
             CONTACT DEALER
           </button>
-          <button className="flex-1 bg-blue-700 text-white py-2 rounded-md text-sm hover:bg-blue-800 transition">
+          <button className="flex-1 bg-blue-900 text-white py-2 rounded-md text-sm hover:bg-blue-900/90 transition">
             BOOK A TEST DRIVE
           </button>
         </div>
