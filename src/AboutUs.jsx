@@ -15,7 +15,7 @@ const AboutUs = () => {
         <p>
           India’s pre-owned E-Scooter market is growing and maturing in tandem,
           and{" "}
-          <span className="mb-4 text-xl font-extrabold leading-none tracking-tight text-blue-800">
+          <span className="mb-4 text-xl font-extrabold leading-none tracking-tight text-blue-900">
             RESELL®
           </span>{" "}
           is at the forefront of this evolution. Our sole and overriding
@@ -26,7 +26,7 @@ const AboutUs = () => {
 
         <p>
           Since foraying into India’s pre-owned E-Scooter market in 2022,{" "}
-          <span className="mb-4 text-xl font-extrabold leading-none tracking-tight text-blue-800">
+          <span className="mb-4 text-xl font-extrabold leading-none tracking-tight text-blue-900">
             RESELL®
           </span>
           , SMG Electric Scooter’s channel for pre-owned e-scooters, has grown
@@ -37,7 +37,7 @@ const AboutUs = () => {
 
         <p>
           Today,{" "}
-          <span className="mb-4 text-xl font-extrabold leading-none tracking-tight text-blue-800">
+          <span className="mb-4 text-xl font-extrabold leading-none tracking-tight text-blue-900">
             SMG RESELL®
           </span>{" "}
           is a trusted destination for buyers and sellers alike, committed to
@@ -49,24 +49,24 @@ const AboutUs = () => {
       {/* Why Choose Us */}
       <section className="bg-gray-50 py-12">
         <div className="max-w-6xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold text-blue-800 mb-10">
+          <h2 className="text-4xl font-extrabold text-blue-900 mb-10">
             Why Choose Resell®
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 text-left">
             <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
-              <h3 className="text-xl font-bold mb-2 text-blue-800">
+              <h3 className="text-xl font-bold mb-2 text-blue-900">
                 Reliable E-Scooters
               </h3>
               <p className="text-gray-700 text-lg">
                 Every pre-owned E-Scooter is digitally evaluated on{" "}
-                <strong>78+ checkpoints</strong> to ensure quality and
+                <strong>78 checkpoints</strong> to ensure quality and
                 reliability.
               </p>
             </div>
 
             <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
-              <h3 className="text-xl font-bold mb-2 text-blue-800">
+              <h3 className="text-xl font-bold mb-2 text-blue-900">
                 Fair Pricing
               </h3>
               <p className="text-gray-700 text-lg">
@@ -76,7 +76,7 @@ const AboutUs = () => {
             </div>
 
             <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
-              <h3 className="text-xl font-bold mb-2 text-blue-800">
+              <h3 className="text-xl font-bold mb-2 text-blue-900">
                 Seamless Experience
               </h3>
               <p className="text-gray-700 text-lg">

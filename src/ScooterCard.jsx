@@ -32,19 +32,6 @@ const ScooterCard = ({ scooter }) => {
         </div>
         <p className="text-xs text-gray-500">EMI Starts: ₹{scooter.emiStart}</p>
 
-        {/* Smart Finance Checkbox */}
-        <label className="flex items-center text-sm text-gray-700 mt-1">
-          <input type="checkbox" className="mr-2 accent-blue-900" />
-          Select for Smart Finance
-        </label>
-
-        {/* Feature Labels (About, Compare, Finance) */}
-        <div className="grid grid-cols-3 text-center text-xs text-gray-700 mt-3">
-          <div>About Scooter</div>
-          <div>Compare</div>
-          <div>Smart Finance</div>
-        </div>
-
         {/* Action Buttons */}
         <div className="flex gap-2 mt-4">
           <button className="flex-1 border border-blue-900 text-blue-900 py-2 rounded-md text-sm hover:bg-blue-900/10 transition">

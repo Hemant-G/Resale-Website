@@ -3,7 +3,7 @@ import ScooterCard from "./ScooterCard";
 
 const dummyScooters = [
   {
-    image: "https://images.pexels.com/photos/159192/vespa-roller-motor-scooter-cult-159192.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "src\\assets\\red.jpg",
     title: "Model ABC",
     distance: 12,
     year: 2021,
@@ -11,10 +11,10 @@ const dummyScooters = [
     price: 18500,
     emiStart: 500,
     owner: "1st Owner",
-    color: "red"
+    color: "red",
   },
   {
-    image: "https://images.pexels.com/photos/205912/pexels-photo-205912.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "src\\assets\\grey.jpg",
     title: "Model XYZ",
     distance: 5,
     year: 2022,
@@ -22,10 +22,10 @@ const dummyScooters = [
     price: 29500,
     emiStart: 790,
     owner: "2nd Owner",
-    color: "grey"
+    color: "grey",
   },
   {
-    image: "https://images.pexels.com/photos/159210/vespa-roller-motor-scooter-cult-159210.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "src\\assets\\blue.jpg",
     title: "Model PQR",
     distance: 20,
     year: 2020,
@@ -33,10 +33,10 @@ const dummyScooters = [
     price: 17500,
     emiStart: 470,
     owner: "More than 2 owners",
-    color: "blue"
+    color: "blue",
   },
   {
-    image: "https://images.pexels.com/photos/1710509/pexels-photo-1710509.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "src\\assets\\white.jpg",
     title: "Model DEF",
     distance: 8,
     year: 2023,
@@ -44,21 +44,10 @@ const dummyScooters = [
     price: 30000,
     emiStart: 800,
     owner: "1st Owner",
-    color: "green"
+    color: "white",
   },
   {
-    image: "https://images.pexels.com/photos/2067568/pexels-photo-2067568.jpeg?auto=compress&cs=tinysrgb&w=600",
-    title: "Model GHI",
-    distance: 15,
-    year: 2023,
-    kmsDriven: 2000,
-    price: 19500,
-    emiStart: 520,
-    owner: "2nd Owner",
-    color: "brown"
-  },
-  {
-    image: "https://images.pexels.com/photos/4542987/pexels-photo-4542987.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    image: "src\\assets\\grey2.jpg",
     title: "Model JKL",
     distance: 25,
     year: 2022,
@@ -66,38 +55,51 @@ const dummyScooters = [
     price: 28000,
     emiStart: 765,
     owner: "More than 2 owners",
-    color: "blue"
-  }
+    color: "grey",
+  },
 ];
 
 const currentYear = new Date().getFullYear();
 
-const ScooterList = ({ filters }) => {
-  const filteredScooters = dummyScooters.filter((scooter) => {
+const ScooterList = ({ filters, sortOption }) => {
+  const sortedScooters = [...dummyScooters].sort((a, b) => {
+    switch (sortOption) {
+      case "price_low_high":
+        return a.price - b.price;
+      case "price_high_low":
+        return b.price - a.price;
+      case "year_new_old":
+        return b.year - a.year;
+      default:
+        return 0;
+    }
+  });
+
+  const filteredScooters = sortedScooters.filter((scooter) => {
     return filters.every((filter) => {
       const f = filter.toLowerCase();
 
-      //  Handle price (budget) filters
-      const isBudgetFilter = ["₹0-₹20,000", "₹20,000-₹50,000"].includes(filter);
-      if (isBudgetFilter) {
+      // Price filter
+      if (["₹0-₹20,000", "₹20,000-₹50,000"].includes(filter)) {
         switch (filter) {
           case "₹0-₹20,000":
             return scooter.price <= 20000;
           case "₹20,000-₹50,000":
-            return scooter.price >= 20000 && scooter.price <= 50000;
+            return scooter.price > 20000 && scooter.price <= 50000;
           default:
-            return false;
+            return true;
         }
       }
 
-      //  Handle kms driven filters
-      const isKmsFilter = [
-        "Less than 10k km",
-        "10k - 20k km",
-        "20k - 30k km",
-        "More than 30k km"
-      ].includes(filter);
-      if (isKmsFilter) {
+      // Kms driven filter
+      if (
+        [
+          "Less than 10k km",
+          "10k - 20k km",
+          "20k - 30k km",
+          "More than 30k km",
+        ].includes(filter)
+      ) {
         switch (filter) {
           case "Less than 10k km":
             return scooter.kmsDriven < 10000;
@@ -108,18 +110,12 @@ const ScooterList = ({ filters }) => {
           case "More than 30k km":
             return scooter.kmsDriven > 30000;
           default:
-            return false;
+            return true;
         }
       }
 
-      //  Handle age filters
-      const isAgeFilter = [
-        "0-2 years",
-        "3-5 years",
-        "6-10 years",
-        "10+ years"
-      ].includes(filter);
-      if (isAgeFilter) {
+      // Age filter
+      if (["0-2 years", "3-5 years", "6-10 years", "10+ years"].includes(filter)) {
         const age = currentYear - scooter.year;
         switch (filter) {
           case "0-2 years":
@@ -131,22 +127,17 @@ const ScooterList = ({ filters }) => {
           case "10+ years":
             return age > 10;
           default:
-            return false;
+            return true;
         }
       }
 
-      //  Handle owner filter
-      const isOwnerFilter = [
-        "1st Owner",
-        "2nd Owner",
-        "More than 2 owners"
-      ].includes(filter);
-      if (isOwnerFilter) {
+      // Owner filter
+      if (["1st Owner", "2nd Owner", "More than 2 owners"].includes(filter)) {
         return scooter.owner === filter;
       }
 
-      // Handle color filter
-      const isColorFilter = [
+      // Color filter
+      const colorOptions = [
         "white",
         "grey",
         "red",
@@ -157,21 +148,18 @@ const ScooterList = ({ filters }) => {
         "pink",
         "brown",
         "green",
-      ]
-      .includes(filter);
-      if (isColorFilter) {
-        return scooter.color && scooter.color.toLowerCase() === f;
+      ];
+      if (colorOptions.includes(f)) {
+        return scooter.color.toLowerCase() === f;
       }
 
-      // Handle range filter
-      if(filter.includes("Km")){
-        const range = filter.split(" ");
-        return scooter.distance <= range[0];
+      // Range (distance) filter
+      if (filter.includes("Km")) {
+        const rangeValue = parseInt(filter.split(" ")[0]);
+        return scooter.distance <= rangeValue;
       }
 
-
-      //  Fallback for matching by year (if ever needed)
-      return scooter.year.toString() === filter;
+      return true;
     });
   });
 
@@ -182,7 +170,7 @@ const ScooterList = ({ filters }) => {
           <ScooterCard key={index} scooter={scooter} />
         ))
       ) : (
-        <p className="text-gray-600">No scooters match your filters.</p>
+        <p className="text-gray-600 col-span-full">No scooters match your filters.</p>
       )}
     </div>
   );
