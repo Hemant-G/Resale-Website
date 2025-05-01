@@ -27,7 +27,7 @@ export default function HomePage() {
             </Link>
           </div>
           <img
-            src="src/assets/SMG_showroom.jpg"
+            src="SMG_showroom.jpg"
             alt="Showroom"
             className="h-60 w-[520px] object-cover rounded-xl"
           />

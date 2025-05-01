@@ -3,7 +3,7 @@ import ScooterCard from "./ScooterCard";
 
 const dummyScooters = [
   {
-    image: "src\\assets\\red.jpg",
+    image: "red.jpg",
     title: "Model ABC",
     distance: 12,
     year: 2021,
@@ -14,7 +14,7 @@ const dummyScooters = [
     color: "red",
   },
   {
-    image: "src\\assets\\grey.jpg",
+    image: "grey.jpg",
     title: "Model XYZ",
     distance: 5,
     year: 2022,
@@ -25,7 +25,7 @@ const dummyScooters = [
     color: "grey",
   },
   {
-    image: "src\\assets\\blue.jpg",
+    image: "blue.jpg",
     title: "Model PQR",
     distance: 20,
     year: 2020,
@@ -36,7 +36,7 @@ const dummyScooters = [
     color: "blue",
   },
   {
-    image: "src\\assets\\white.jpg",
+    image: "white.jpg",
     title: "Model DEF",
     distance: 8,
     year: 2023,
@@ -47,7 +47,7 @@ const dummyScooters = [
     color: "white",
   },
   {
-    image: "src\\assets\\grey2.jpg",
+    image: "grey2.jpg",
     title: "Model JKL",
     distance: 25,
     year: 2022,
