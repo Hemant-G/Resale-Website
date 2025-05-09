@@ -1,6 +1,11 @@
 import mongoose from 'mongoose';
 
 const scooterSchema = new mongoose.Schema({
+  sellerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
   image: {
     type: String,
     required: true

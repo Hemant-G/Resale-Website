@@ -1,11 +1,16 @@
 import express from "express";
 import { getScooters, createScooter, getScooterById, updateScooter, deleteScooter } from "../controllers/scooterController.js";
+import passport from "../config/passport.config.js";
 
 const router = express.Router();
 
 router.get("/", getScooters);
-router.post("/", createScooter);
 router.get("/:id", getScooterById);
-router.put("/:id", updateScooter);
-router.delete("/:id", deleteScooter);
+
+// Protected routes (require authentication)
+router.post("/", passport.authenticate('jwt', { session: false }), createScooter);
+router.put("/:id", passport.authenticate('jwt', { session: false }), updateScooter);
+router.delete("/:id", passport.authenticate('jwt', { session: false }), deleteScooter);
+
+
 export default router;

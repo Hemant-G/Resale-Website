@@ -3,9 +3,52 @@ import Scooter from "../models/scooter.model.js";
 //get scooters data
 export const getScooters = async (req, res) => {
   try {
-    const scooters = await Scooter.find({});
+    const query = {};
+
+    // Price filter
+    if (req.query.price_lte) {
+      query.price = { ...query.price, $lte: parseInt(req.query.price_lte) };
+    }
+    if (req.query.price_gte) {
+      query.price = { ...query.price, $gte: parseInt(req.query.price_gte) };
+    }
+
+    // Kms driven filter
+    if (req.query.kms_lte) {
+      query.kmsDriven = {
+        ...query.kmsDriven,
+        $lte: parseInt(req.query.kms_lte),
+      };
+    }
+    if (req.query.kms_gte) {
+      query.kmsDriven = {
+        ...query.kmsDriven,
+        $gte: parseInt(req.query.kms_gte),
+      };
+    }
+
+    // Year filter
+    if (req.query.year_lte) {
+      query.year = { ...query.year, $lte: parseInt(req.query.year_lte) };
+    }
+    if (req.query.year_gte) {
+      query.year = { ...query.year, $gte: parseInt(req.query.year_gte) };
+    }
+
+    // Color filter (case-insensitive)
+    if (req.query.color) {
+      query.color = { $regex: new RegExp(req.query.color, "i") };
+    }
+
+    // Owner filter
+    if (req.query.owner) {
+      query.owner = req.query.owner;
+    }
+
+    const scooters = await Scooter.find(query);
     res.status(200).json(scooters);
   } catch (error) {
+    console.error("getScooters - Error fetching scooters with filters:", error);
     res.status(500).json({ message: "Error fetching scooters" });
   }
 };
@@ -30,7 +73,12 @@ export const getScooterById = async (req, res) => {
 //add a new scooter
 export const createScooter = async (req, res) => {
   try {
-    const newScooter = new Scooter(req.body);
+    const sellerId = req.user._id;
+    const newScooter = new Scooter({
+      ...req.body,
+      sellerId: sellerId,
+    });
+
     const savedScooter = await newScooter.save();
     res.status(201).json(savedScooter);
   } catch (error) {
@@ -45,26 +93,33 @@ export const createScooter = async (req, res) => {
 // updating a scooter
 export const updateScooter = async (req, res) => {
   try {
-    const id = req.params.id;
-    const updatedScooter = await Scooter.findByIdAndUpdate(
-      id,
-      req.body,
-      { new: true, runValidators: true } 
-    );
+    const scooterId = req.params.id;
+    const loggedInUserId = req.user._id;
+    const loggedInUserRole = req.user.role;
 
-    if (!updatedScooter) {
+    const scooter = await Scooter.findById(scooterId);
+
+    if (!scooter) {
       return res.status(404).json({ message: "Scooter not found" });
     }
 
-    res.status(200).json(updatedScooter);
+    if (
+      scooter.sellerId.toString() == loggedInUserId.toString() ||
+      loggedInUserRole == "admin"
+    ) {
+      const updatedScooter = await Scooter.findByIdAndUpdate(
+        scooterId,
+        req.body,
+        { new: true }
+      );
+      res.status(200).json(updatedScooter);
+    } else {
+      return res
+        .status(403)
+        .json({ message: "Not authorized to edit this scooter" });
+    }
   } catch (error) {
     console.error("Error updating scooter:", error);
-    if (error.name == "CastError") {
-      return res.status(400).json({ message: "Invalid scooter ID" });
-    }
-    if (error.name == "ValidationError") {
-      return res.status(400).json({ message: error.message });
-    }
     res.status(500).json({ message: "Failed to update scooter" });
   }
 };
@@ -72,19 +127,29 @@ export const updateScooter = async (req, res) => {
 // delete a scooter
 export const deleteScooter = async (req, res) => {
   try {
-    const id = req.params.id;
-    const deletedScooter = await Scooter.findByIdAndDelete(id);
+    const scooterId = req.params.id;
+    const loggedInUserId = req.user._id;
+    const loggedInUserRole = req.user.role;
 
-    if (!deletedScooter) {
+    const scooter = await Scooter.findById(scooterId);
+
+    if (!scooter) {
       return res.status(404).json({ message: "Scooter not found" });
     }
 
-    res.status(200).json({ message: "Scooter deleted successfully" });
+    if (
+      scooter.sellerId.toString() === loggedInUserId.toString() ||
+      loggedInUserRole === "admin"
+    ) {
+      await Scooter.findByIdAndDelete(scooterId);
+      res.status(204).send();
+    } else {
+      return res
+        .status(403)
+        .json({ message: "Not authorized to delete this scooter" });
+    }
   } catch (error) {
     console.error("Error deleting scooter:", error);
-    if (error.name == "CastError") {
-      return res.status(400).json({ message: "Invalid scooter ID" });
-    }
     res.status(500).json({ message: "Failed to delete scooter" });
   }
 };
