@@ -31,8 +31,7 @@ const scooterSchema = new mongoose.Schema({
     required: true
   },
   emiStart: {
-    type: Number,
-    required: true
+    type: Number
   },
   owner: {
     type: String,

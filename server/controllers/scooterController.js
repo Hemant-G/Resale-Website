@@ -42,10 +42,51 @@ export const getScooters = async (req, res) => {
 
     // Owner filter
     if (req.query.owner) {
-      query.owner = req.query.owner;
+      query.owner = {
+        $in: Array.isArray(req.query.owner)
+          ? req.query.owner
+          : [req.query.owner],
+      };
     }
 
-    const scooters = await Scooter.find(query);
+    // State filter (case-insensitive)
+    if (req.query.state) {
+      query.state = { $regex: new RegExp(req.query.state, "i") };
+    }
+
+    // City filter (case-insensitive)
+    if (req.query.city) {
+      query.city = { $regex: new RegExp(req.query.city, "i") };
+    }
+
+    // Distance filter
+    if (req.query.distance_lte) {
+      query.distanceDriven = {
+        ...query.distanceDriven,
+        $lte: parseInt(req.query.distance_lte),
+      };
+    }
+
+    const sortOption = req.query.sort;
+    const sort = {};
+
+    if (sortOption === "price-asc") {
+      sort.price = 1;
+    } else if (sortOption === "price-desc") {
+      sort.price = -1;
+    } else if (sortOption === "year-asc") {
+      sort.year = 1;
+    } else if (sortOption === "year-desc") {
+      sort.year = -1;
+    } else if (sortOption === "price_low_high") {
+      sort.price = 1;
+    } else if (sortOption === "price_high_low") {
+      sort.price = -1;
+    } else if (sortOption === "year_new_old") {
+      sort.year = -1;
+    }
+
+    const scooters = await Scooter.find(query).sort(sort);
     res.status(200).json(scooters);
   } catch (error) {
     console.error("getScooters - Error fetching scooters with filters:", error);
@@ -67,6 +108,19 @@ export const getScooterById = async (req, res) => {
       return res.status(400).json({ message: "Invalid scooter ID" });
     }
     res.status(500).json({ message: "Failed to fetch scooter" });
+  }
+};
+
+// get a scooter by seller id
+export const getScooterBySellerId = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const scooters = await Scooter.find({ sellerId: userId });
+
+    res.status(200).json(scooters);
+  } catch (error) {
+    console.error("Error fetching user scooters:", error);
+    res.status(500).json({ message: "Failed to fetch user scooters" });
   }
 };
 

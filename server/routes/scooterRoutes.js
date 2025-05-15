@@ -12,5 +12,4 @@ router.post("/", passport.authenticate('jwt', { session: false }), createScooter
 router.put("/:id", passport.authenticate('jwt', { session: false }), updateScooter);
 router.delete("/:id", passport.authenticate('jwt', { session: false }), deleteScooter);
 
-
 export default router;

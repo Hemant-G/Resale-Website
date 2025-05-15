@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
+import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
     trim: true,
     lowercase: true,
-    match: [/.+\@.+\..+/, 'Please enter a valid email address'],
+    match: [/.+\@.+\..+/, "Please enter a valid email address"],
   },
   password: {
     type: String,
@@ -25,8 +25,24 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['customer', 'admin'],
-    default: 'buyer',
+    enum: ["customer", "admin"],
+    default: "customer",
+  },
+  phone: {
+    type: String,
+    trim: true,
+  },
+  address: {
+    type: String,
+    trim: true,
+  },
+  city: {
+    type: String,
+    trim: true,
+  },
+  state: {
+    type: String,
+    trim: true,
   },
   createdAt: {
     type: Date,
@@ -39,8 +55,8 @@ const userSchema = new mongoose.Schema({
 });
 
 // Hash the password before saving or updating
-userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) {
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
     return next();
   }
   try {
@@ -62,6 +78,6 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
   }
 };
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
 export default User;
