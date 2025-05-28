@@ -1,60 +1,72 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const scooterSchema = new mongoose.Schema({
+ const scooterSchema = new mongoose.Schema({
   sellerId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
     required: true,
   },
-  image: {
+  images: [
+    {
+      public_id: String, // Cloudinary public ID for the image
+      url: String,       // Cloudinary URL for the image
+    },
+  ],
+  description: {
     type: String,
-    required: true
   },
-  title: {
+  model: {
     type: String,
-    required: true
   },
   distance: {
     type: Number,
-    required: true
+    required: true,
   },
   year: {
     type: Number,
-    required: true
+    required: true,
   },
   kmsDriven: {
     type: Number,
-    required: true
+    required: true,
   },
   price: {
     type: Number,
-    required: true
+    required: true,
   },
   emiStart: {
-    type: Number
+    type: Number,
   },
   owner: {
     type: String,
     enum: ["1st Owner", "2nd Owner", "More than 2 owners"],
-    required: true
+    required: true,
   },
   color: {
     type: String,
-    required: true
+    required: true,
   },
   location: {
     type: String,
-    required : true
+    required: true,
+  },
+  rcFile: {
+    public_id: String, // Cloudinary public ID for the RC file
+    url: String,       // Cloudinary URL for the RC file
+  },
+  purchaseBillFile: {
+    public_id: String, // Cloudinary public ID for the purchase bill
+    url: String,       // Cloudinary URL for the purchase bill
   },
   isAvailable: {
     type: Boolean,
-    default: true
+    default: true,
   },
   createdAt: {
     type: Date,
-    default: Date.now
-  }
-});
+    default: Date.now,
+  },
+ });
 
-const Scooter = mongoose.model('Scooter', scooterSchema);
-export default Scooter;
+ const Scooter = mongoose.model("Scooter", scooterSchema);
+ export default Scooter;

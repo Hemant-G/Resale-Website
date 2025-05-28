@@ -1,5 +1,6 @@
 import Scooter from "../models/scooter.model.js";
-
+import cloudinary from "../config/cloudinary.config.js";
+import streamifier from "streamifier";
 //get scooters data
 export const getScooters = async (req, res) => {
   try {
@@ -125,24 +126,122 @@ export const getScooterBySellerId = async (req, res) => {
 };
 
 //add a new scooter
-export const createScooter = async (req, res) => {
+ export const createScooter = async (req, res) => {
   try {
-    const sellerId = req.user._id;
-    const newScooter = new Scooter({
-      ...req.body,
-      sellerId: sellerId,
-    });
+  const sellerId = req.user._id;
+  const imageUrls = [];
+  const publicImageIds = [];
+  let rcFileResult = null;
+  let purchaseBillFileResult = null;
 
-    const savedScooter = await newScooter.save();
-    res.status(201).json(savedScooter);
-  } catch (error) {
-    console.error("Error creating scooter:", error);
-    if (error.name == "ValidationError") {
-      return res.status(400).json({ message: error.message });
-    }
-    res.status(500).json({ message: "Failed to create scooter" });
+  // Handle image uploads to Cloudinary
+  if (req.files && req.files.images) {
+  const uploadPromises = req.files.images.map(async (file) => {
+  return new Promise((resolve, reject) => {
+  const uploadStream = cloudinary.uploader.upload_stream({ folder: 'scooter_images' }, (error, result) => {
+  if (error) {
+  reject(error);
+  } else {
+  imageUrls.push({ public_id: result.public_id, url: result.secure_url });
+  publicImageIds.push(result.public_id);
+  resolve(result);
   }
-};
+  });
+  streamifier.createReadStream(file.buffer).pipe(uploadStream);
+  });
+  });
+  await Promise.all(uploadPromises);
+  console.log('Images uploaded to Cloudinary:', imageUrls);
+  }
+
+  // Handle RC file upload to Cloudinary
+  if (req.files && req.files.rcFile && req.files.rcFile[0]) {
+  try {
+  const result = await new Promise((resolve, reject) => {
+  const uploadStream = cloudinary.uploader.upload_stream({
+  folder: 'scooter_documents',
+  resource_type: 'raw',
+  }, (error, result) => {
+  if (error) {
+  reject(error);
+  } else {
+  resolve(result);
+  }
+  });
+  streamifier.createReadStream(req.files.rcFile[0].buffer).pipe(uploadStream);
+  });
+  rcFileResult = { public_id: result.public_id, url: result.secure_url };
+  console.log('RC file uploaded to Cloudinary:', rcFileResult);
+  } catch (cloudinaryError) {
+  console.error('Error uploading RC file to Cloudinary:', cloudinaryError);
+  return res.status(500).json({ message: 'Failed to upload RC file to Cloudinary' });
+  }
+  }
+
+  // Handle purchase bill file upload to Cloudinary
+  if (req.files && req.files.purchaseBillFile && req.files.purchaseBillFile[0]) {
+  try {
+  const result = await new Promise((resolve, reject) => {
+  const uploadStream = cloudinary.uploader.upload_stream({
+  folder: 'scooter_documents',
+  resource_type: 'raw',
+  }, (error, result) => {
+  if (error) {
+  reject(error);
+  } else {
+  resolve(result);
+  }
+  });
+  streamifier.createReadStream(req.files.purchaseBillFile[0].buffer).pipe(uploadStream);
+  });
+  purchaseBillFileResult = { public_id: result.public_id, url: result.secure_url };
+  console.log('Purchase bill uploaded to Cloudinary:', purchaseBillFileResult);
+  } catch (cloudinaryError) {
+  console.error('Error uploading purchase bill to Cloudinary:', cloudinaryError);
+  return res.status(500).json({ message: 'Failed to upload purchase bill to Cloudinary' });
+  }
+  }
+
+  const {
+  price,
+  location,
+  owner,
+  color,
+  distance,
+  model,
+  year,
+  kmsDriven,
+  condition,
+  description
+  } = req.body;
+
+  const newScooter = new Scooter({
+  price,
+  location,
+  color,
+  owner,
+  distance,
+  description,
+  model,
+  year,
+  kmsDriven,
+  condition,
+  sellerId: sellerId,
+  images: imageUrls,
+  rcFile: rcFileResult,
+  purchaseBillFile: purchaseBillFileResult,
+  });
+
+  const savedScooter = await newScooter.save();
+  res.status(201).json(savedScooter);
+  } catch (error) {
+  console.error("Error creating scooter:", error);
+  if (error.name == "ValidationError") {
+  return res.status(400).json({ message: error.message });
+  }
+  res.status(500).json({ message: "Failed to create scooter" });
+  }
+ };
 
 // updating a scooter
 export const updateScooter = async (req, res) => {

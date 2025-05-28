@@ -74,6 +74,19 @@ export const loginUser = async (req, res) => {
 };
 
 
+//User Logout
+export const logoutUser = (req, res) => {
+  res.clearCookie('accessToken', {
+    httpOnly: true,
+    secure: false, // Set to true in production (use HTTPS)
+    sameSite: 'strict',
+    domain: 'localhost', // Match the domain used in login
+    path: '/',           // Match the cookie path
+  });
+
+  res.status(200).json({ message: 'Logout successful' });
+};
+
 // Get user profile
 export const getUserProfile = async (req, res) => {
   try {

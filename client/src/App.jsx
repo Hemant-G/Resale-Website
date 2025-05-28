@@ -8,9 +8,13 @@ import SellScooterForm from "./SellScooterForm";
 import { BrowserRouter, Routes, Route } from "react-router";
 import HomePage from "./HomePage";
 import AboutUs from "./AboutUs";
+import CareersPage from "./CareersPage";
+import TestimonialsPage from "./TestimonialsPage";
+import UserProfile from "./UserProfile";
+import ScooterDetailsPage from "./ScooterDetailsPage";
 
 function App() {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const [isRegister, setIsRegister] = useState(false);
 
   return (
@@ -22,7 +26,11 @@ function App() {
             <Route path="/buy" element={<BuyPage />} />
             <Route path="/sell" element={<SellScooterForm />} />
             <Route path="/login" element={<LoginRegister />} />
+            <Route path="/careers" element={<CareersPage />} />
+            <Route path="/testimonials" element={<TestimonialsPage />} />
+            <Route path="/userprofile" element={<UserProfile />} />
             <Route path="/about" element={<AboutUs />} />
+            <Route path="/scooter/:id" element={<ScooterDetailsPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

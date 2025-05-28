@@ -1,7 +1,12 @@
 import React from "react";
+import { useNavigate, NavLink } from "react-router";
+
 
 const Footer = () => {
+  const navigate = useNavigate();
+  
   return (
+    
     <footer className="bg-blue-950 text-white py-10 mt-12">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-10 gap-10">
         
@@ -15,8 +20,8 @@ const Footer = () => {
         <div className="col-span-1">
           <h4 className="font-semibold mb-2">Company</h4>
           <ul className="space-y-1 text-sm text-gray-300">
-            <li>About Us</li>
-            <li>Careers</li>
+            <li onClick={() => navigate("/about")} className="cursor-pointer hover:text-blue-400">About Us</li>
+            <li onClick={() => navigate("/careers")} className="cursor-pointer hover:text-blue-400">Careers</li>
             <li>Blog</li>
             <li>Press</li>
           </ul>

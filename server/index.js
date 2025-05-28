@@ -6,7 +6,6 @@ import authRoutes from './routes/authRoutes.js'
 import passport from './config/passport.config.js'
 import cors from 'cors';
 import cookieParser from 'cookie-parser'
-console.log('NODE_ENV:', process.env.NODE_ENV);
 
 // variables
 const app = express()

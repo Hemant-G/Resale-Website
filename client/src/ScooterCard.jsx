@@ -2,20 +2,25 @@ import React from "react";
 
 const ScooterCard = ({ scooter }) => {
   return (
-    <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 w-full max-w-sm">
+    <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg hover:border hover:border-gray-300 transition-shadow duration-300 w-full max-w-sm">
       {/* Image */}
-      <img
-        src={scooter.image}
-        alt={scooter.title}
-        className="w-full h-48 object-cover"
-      />
+      {scooter.images && scooter.images.length > 0 ? (
+        <img
+          src={scooter.images[0]?.url}
+          alt={scooter.model}
+          className="w-full h-48 object-cover cursor-pointer"
+        />
+      ) : (
+        <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
+          <span className="text-gray-500">No Image Available</span>
+        </div>
+      )}
 
       {/* Card Content */}
       <div className="p-4 space-y-2">
-        <h3 className="text-lg font-semibold text-gray-800">{scooter.title}</h3>
-        <p className="text-sm text-gray-600">
-          {scooter.location} • <span className="underline">{scooter.distance} Kms Away</span>
-        </p>
+        <h3 className="text-lg font-semibold text-gray-800 truncate">
+          {scooter.model}
+        </h3>
         <p className="text-sm text-gray-700">
           {scooter.year} • {scooter.fuel} • {scooter.kmsDriven} km
         </p>
@@ -31,16 +36,6 @@ const ScooterCard = ({ scooter }) => {
           </button>
         </div>
         <p className="text-xs text-gray-500">EMI Starts: ₹{scooter.emiStart}</p>
-
-        {/* Action Buttons */}
-        <div className="flex gap-2 mt-4">
-          <button className="flex-1 border border-blue-900 text-blue-900 py-2 rounded-md text-sm hover:bg-blue-900/10 transition">
-            CONTACT DEALER
-          </button>
-          <button className="flex-1 bg-blue-900 text-white py-2 rounded-md text-sm hover:bg-blue-900/90 transition">
-            BOOK A TEST DRIVE
-          </button>
-        </div>
       </div>
     </div>
   );
