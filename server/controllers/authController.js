@@ -59,7 +59,7 @@ export const loginUser = async (req, res) => {
     // Set the cookie with the JWT token
     res.cookie('accessToken', token, {
       httpOnly: true,
-      secure: false, // Consider enabling this when moving to production (process.env.NODE_ENV === 'production')
+      secure: true, // Consider enabling this when moving to production (process.env.NODE_ENV === 'production')
       sameSite: 'strict', // Or 'lax'
       maxAge: 60 * 60 * 1000, // Set the same lifetime as the JWT expiration (1 hour)
       domain: 'localhost',  // This should match the domain of your front-end (localhost for development)
@@ -78,7 +78,7 @@ export const loginUser = async (req, res) => {
 export const logoutUser = (req, res) => {
   res.clearCookie('accessToken', {
     httpOnly: true,
-    secure: false, // Set to true in production (use HTTPS)
+    secure: true, // Set to true in production (use HTTPS)
     sameSite: 'strict',
     domain: 'localhost', // Match the domain used in login
     path: '/',           // Match the cookie path
