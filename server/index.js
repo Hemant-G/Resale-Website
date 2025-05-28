@@ -16,14 +16,10 @@ app.listen(port, () => {
 })
 
 // middleware
-const allowedOrigins = [
-  'https://resale-website.vercel.app',
-  'http://localhost:5173', 
-];
-
-const corsOptions = {
-  origin: allowedOrigins,
-  credentials: true,
+const corsOptions ={
+  origin:'*', 
+  credentials:true,
+  optionSuccessStatus:200,
 }
 
 app.use(cookieParser());
