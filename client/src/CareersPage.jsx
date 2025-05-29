@@ -226,7 +226,7 @@ const CareersPage = () => {
       <div className="py-16 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row ">
           {/* Filters */}
-          <div className="lg:w-1/4 xl:w-1/5 lg:pr-8 mb-8 lg:mb-0 sticky top-24 self-start">
+          <div className="lg:w-1/4 xl:w-1/5 lg:pr-8 mb-8 lg:mb-0 lg:sticky top-24 self-start">
             <h2 className="text-2xl font-bold mb-4">Filters</h2>
             <div className="mb-4">
               <label
